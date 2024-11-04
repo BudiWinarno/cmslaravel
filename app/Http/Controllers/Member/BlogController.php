@@ -49,7 +49,8 @@ class BlogController extends Controller
      */
     public function edit(Post $post)
     {
-        print_r($post);
+        $data = $post;
+        return view('member.blogs.edit', compact('data'));
     }
 
     /**
@@ -57,7 +58,18 @@ class BlogController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'thumbnail' => 'image|mimes:jpeg,jpg,png|max:10240'
+        ],[
+            'title.required' => 'Judul wajib diisi',
+            'content.required' => 'Konten wajib diisi',
+            'thumbnail.image' => 'Hanya gambar yang diperbolehkan',
+            'thumbnail.mimes' => 'Ekstensi yang di perbolehkan hanya JPEG, JPG dan PNG',
+            'thumbnail.max' => 'Ukuran maksimum untuk thumbnail adalah 10MB'
+            
+        ]);
     }
 
     /**
